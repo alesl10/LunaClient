@@ -6,7 +6,8 @@ import { AuthProvider } from "./context/authContext.jsx";
 //Routes
 import Login from "./routes/Login.jsx";
 import Layout from "./components/Layout/index.jsx";
-import Busqueda from "./routes/Busqueda.jsx";
+import BusquedaTramite from "./routes/BusquedaTramite.jsx";
+import BusquedaSociedad from "./routes/busquedaSociedades.jsx";
 
 const router = createBrowserRouter([
   {
@@ -18,8 +19,12 @@ const router = createBrowserRouter([
         element: <Login />,
       },
       {
-        path: "/home",
-        element: <Busqueda />,
+        path: "/busquedasociedades",
+        element: <BusquedaSociedad />,
+      },
+      {
+        path: "/BusquedaTramite",
+        element: <BusquedaTramite />,
       },
     ],
   },

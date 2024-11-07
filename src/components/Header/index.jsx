@@ -8,12 +8,13 @@ function Header() {
     <div>
       <header className=" w-full bg-primary">
         <div className=" text-white flex items-center justify-around rounded-t-2xl">
-          <div>
+          <div className="flex items-center gap-2 font-extrabold text-4xl">
             <img
               src="IconoLunaFinal.png"
               className=" mt-1 w-[100px]"
               alt="IGJ Logo"
             />
+            <span>LUNA</span>
           </div>
           <div className="flex items-center ">
             <img

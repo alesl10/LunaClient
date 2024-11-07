@@ -14,9 +14,9 @@ function Login() {
 
   const onSubmit = handleSubmit(async (values) => signin(values));
 
-  useEffect(() => {
-    if (isAuthenticated) navigate("/Home");
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (isAuthenticated) navigate("/Home");
+  // }, [isAuthenticated]);
 
   return (
     <div className="max-w-md m-auto my-10">
