@@ -12,7 +12,7 @@ function Layout() {
         className="absolute w-full h-full -z-20"
       />
       <Header />
-      <div className=" grow ">
+      <div className="grow ">
         <Page />
       </div>
       <Footer />

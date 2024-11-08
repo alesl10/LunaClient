@@ -16,7 +16,6 @@ export function AuthProvider({ children }) {
 
   const signin = async (user) => {
     try {
-      // console.log(user);
       const rsp = await login(user.nombre, user.contraseña);
       if (rsp.data.isSuccess == true) {
         setUser(user);

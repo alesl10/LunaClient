@@ -1,5 +1,6 @@
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../../context/authContext.jsx";
+import { Navbar } from "flowbite-react";
 
 function Header() {
   const { isAuthenticated, logout, user } = useContext(AuthContext);
@@ -9,12 +10,14 @@ function Header() {
       <header className=" w-full bg-primary">
         <div className=" text-white flex items-center justify-around rounded-t-2xl">
           <div className="flex items-center gap-2 font-extrabold text-4xl">
-            <img
-              src="IconoLunaFinal.png"
-              className=" mt-1 w-[100px]"
-              alt="IGJ Logo"
-            />
-            <span>LUNA</span>
+              <img
+                src="IconoLunaFinal.png"
+                className=" mt-1 w-[100px]"
+                alt="IGJ Logo"
+              />
+            <a href="/">
+              <span>LUNA</span>
+            </a>
           </div>
           <div className="flex items-center ">
             <img
@@ -27,15 +30,22 @@ function Header() {
             </span>
           </div>
           {isAuthenticated ? (
-            <div className="flex items-center gap-2">
-              {/* <span className=" font-semibold">{user.nombre}</span> */}
-              <button
-                onClick={logout}
-                className="bg-white px-4 py-2 text-primary font-bold rounded-full hover:bg-primary/50 hover:text-white "
-              >
-                <a href="/">Salir</a>
-              </button>
-            </div>
+            <Navbar fluid rounded className=" bg-primary ">
+              <div className="flex md:order-2">
+                <Navbar.Toggle />
+              </div>
+              <Navbar.Collapse>
+                <Navbar.Link className="text-white" href="/busquedasociedades">
+                  Buscar Sociedades
+                </Navbar.Link>
+                <Navbar.Link className="text-white" href="/busquedatramites">
+                  Buscar Tramites
+                </Navbar.Link>
+                <button onClick={logout}>
+                  <a href="/">Salir</a>
+                </button>
+              </Navbar.Collapse>
+            </Navbar>
           ) : (
             ""
           )}

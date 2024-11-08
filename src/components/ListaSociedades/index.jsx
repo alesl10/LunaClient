@@ -1,10 +1,11 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Table, Pagination } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 function TablaSociedades({ sociedades }) {
   // configuracion paginacion
   const [currentPage, setCurrentPage] = useState(1);
-  
+
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -12,14 +13,6 @@ function TablaSociedades({ sociedades }) {
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
-  
-  // Filtrar las sociedades por 'razonSocial'
-  // const filteredSociedades = useMemo(() => {
-  //   return sociedades.filter((sociedad) =>
-  //     sociedad.razonSocial.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  // }, [sociedades, searchTerm]);
- 
 
   return (
     <div className="w-2/3">
@@ -48,12 +41,11 @@ function TablaSociedades({ sociedades }) {
               <Table.Cell>{sociedad.tipoSocietario}</Table.Cell>
               <Table.Cell>{sociedad.cuil}</Table.Cell>
               <Table.Cell>
-                <a
-                  href="#"
-                  className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
-                >
-                  Ver Tramites
-                </a>
+                <button>
+                  <Link to={`/busquedatramites/${sociedad.correlativo}`}>
+                    Ver Tramites
+                  </Link>
+                </button>
               </Table.Cell>
             </Table.Row>
           ))}

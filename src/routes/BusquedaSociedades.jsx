@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { getSociedad } from "../api/Expediente.js";
 import { getTipoSocietarios } from "../api/TipoSocietario.js";
-import TablaSociedades from "../components/TablaSociedades/index.jsx";
+import TablaSociedades from "../components/ListaSociedades/index.jsx";
+import Loading from "../components/Loading/Loading.jsx";
 
 function BusquedaSociedad() {
   const [sociedades, setSociedades] = useState([]);
   const [tipoSocietarios, setTipoSocietarios] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   // Estados para modelo busqueda
   const [correlativo, setCorrelativo] = useState("");
@@ -28,6 +30,7 @@ function BusquedaSociedad() {
 
   // Buscar sociedades
   const buscarSociedad = async (e) => {
+    setIsLoading(true);
     e.preventDefault();
     const modelo = {
       correlativo: correlativo || null,
@@ -44,6 +47,7 @@ function BusquedaSociedad() {
       setCorrelativo("");
       setRazonSocial("");
       setCodigoTipoSocietario("");
+      setIsLoading(false);
     } else {
       setError("Debe ingresar al menos un campo");
       setTimeout(() => {
@@ -97,9 +101,7 @@ function BusquedaSociedad() {
           </button>
         </form>
       </div>
-
-      {/* tabla sociedades  */}
-      <TablaSociedades sociedades={sociedades} />
+      {isLoading ? <Loading /> : <TablaSociedades sociedades={sociedades} />}
     </div>
   );
 }
