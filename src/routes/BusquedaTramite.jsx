@@ -42,18 +42,11 @@ function BusquedaTramite() {
   };
 
   return (
-    <div className="bg-gray-200 h-full w-full flex flex-col items-center">
+    <div className="bg-gray-200 h-full w-full flex flex-col gap-3 items-center">
       <h2 className="text-primary text-3xl font-bold">Busqueda de tramites</h2>
 
-      <div className="border-2 rounded-lg">
-        <button
-          onClick={() => navigate(-1)}
-          className="px-4 py-2  font-semibold bg-red-800 text-white rounded-md"
-        >
-          volver
-        </button>
+      <div className="border-2 flex gap-2 justify-around rounded-lg items-center">
         <form className="flex gap-2 items-center" onSubmit={handleSubmit}>
-          <label className="font-semibold text-2xl">Correlativo:</label>
           <input
             onChange={(e) => setCorrelativo(e.target.value)} // Manejamos el cambio del correlativo
             value={correlativo}
@@ -61,10 +54,16 @@ function BusquedaTramite() {
             type="text"
             className="rounded-md px-2 text-lg"
           />
-          <button className="px-4  py-2 font-semibold bg-blue-500 text-yellow-300 rounded-md">
+          <button className="px-4  py-2 font-semibold bg-blue-500 text-yellow-300 rounded-md hover:saturate-50 ">
             Buscar
           </button>
         </form>
+        <button
+          onClick={() => navigate(-1)}
+          className="px-4 py-2  font-semibold bg-red-800 text-white rounded-md hover:saturate-50 "
+        >
+          volver
+        </button>
       </div>
 
       {isLoading ? (
