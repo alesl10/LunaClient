@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
+import {Navigate} from 'react-router-dom'
 import { login } from "../api/auth.js";
 import { getUserDbByName } from "../api/Usuario.js";
 import Cookies from "js-cookie";
@@ -17,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-
+  
   // check token
   useEffect(() => {
     async function checkLogin() {
@@ -55,6 +56,7 @@ export const AuthProvider = ({ children }) => {
     Cookies.remove("token");
     setIsAuthenticated(false);
     setUser(null);
+    Navigate("/");
   };
 
   return (

@@ -10,6 +10,7 @@ function BusquedaTramite() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  
 
   const { correlativo: correlativoUrl } = useParams();
 

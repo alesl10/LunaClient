@@ -8,6 +8,7 @@ import Home from "./routes/Home.jsx";
 import Login from "./routes/Login.jsx";
 import BusquedaSociedades from "./routes/BusquedaSociedades.jsx";
 import BusquedaTramite from "./routes/BusquedaTramite.jsx";
+import TipoTramite from "./routes/TipoTramite.jsx";
 
 function App() {
   return (
@@ -27,7 +28,11 @@ function App() {
               <Route path="/home" element={<Home />} />
               <Route path="/busquedaexp" element={<BusquedaSociedades />} />
               <Route path="/busquedatramites" element={<BusquedaTramite />} />
-              <Route path="/busquedatramites/:correlativo" element={<BusquedaTramite />} />
+              <Route
+                path="/busquedatramites/:correlativo"
+                element={<BusquedaTramite />}
+              />
+              <Route path="/tipostramite" element={<TipoTramite />} />
             </Route>
           </Routes>
           <Footer />

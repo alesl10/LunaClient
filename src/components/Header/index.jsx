@@ -11,12 +11,10 @@ function Header() {
           <Navbar.Brand href="/">
             <img
               src="IconoLunaFinal.png"
-              className=" mt-1 w-[100px]"
+              className=" mt-1 w-[80px]"
               alt="IGJ Logo"
             />
-            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-              LUNA
-            </span>
+            <img src="luna5.png" className=" mt-1 w-[200px]" alt="Luna Logo" />
           </Navbar.Brand>
           <div className="order-2 hidden items-center md:flex gap-4">
             <div className="flex items-center ">
@@ -68,14 +66,12 @@ function Header() {
       ) : (
         <div className="flex w-full flex-wrap items-center justify-around ">
           <Navbar.Brand href="/">
-            <img
+          <img
               src="IconoLunaFinal.png"
-              className=" mt-1 w-[100px]"
+              className=" mt-1 w-[80px]"
               alt="IGJ Logo"
             />
-            <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-              LUNA
-            </span>
+            <img src="luna5.png" className=" mt-1 w-[200px]" alt="Luna Logo" />
           </Navbar.Brand>
           <div className="order-2 hidden items-center md:flex gap-4">
             <div className="flex items-center ">
