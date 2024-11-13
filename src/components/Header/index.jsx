@@ -32,7 +32,7 @@ function Header() {
                 <ul className="">
                   <div className="space-y-4 p-4">
                     {user.rolFuncion.map((r, i) => (
-                      <li key={i}>
+                      <li className="hover:bg-primary/70 hover:text-white " key={i}>
                         <a
                           href={r.funcion.url}
                           className="hover:text-primary text-wrap dark:hover:text-primary-500"

@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/authContext";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+import FooterLuna from "./components/Footer";
 import Layout from "./components/Layout";
 //rutas
 import Home from "./routes/Home.jsx";
@@ -9,6 +9,7 @@ import Login from "./routes/Login.jsx";
 import BusquedaSociedades from "./routes/BusquedaSociedades.jsx";
 import BusquedaTramite from "./routes/BusquedaTramite.jsx";
 import TipoTramite from "./routes/TipoTramite.jsx";
+import Destinos from "./routes/Destinos.jsx";
 
 function App() {
   return (
@@ -33,9 +34,18 @@ function App() {
                 element={<BusquedaTramite />}
               />
               <Route path="/tipostramite" element={<TipoTramite />} />
+              <Route path="/destinos" element={<Destinos />} />
+              <Route
+                path="*"
+                element={
+                  <div className="w-full h-full text-4xl bg-white text-center flex justify-center items-center">
+                    <img src="404_page-not-found-1024x576.webp" alt="" />
+                  </div>
+                }
+              />
             </Route>
           </Routes>
-          <Footer />
+          <FooterLuna />
         </main>
       </BrowserRouter>
     </AuthProvider>

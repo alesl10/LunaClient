@@ -1,6 +1,7 @@
 import { Navigate, Outlet as Page } from "react-router-dom";
 import { UseAuth } from "../../context/authContext";
 import { useEffect } from "react";
+import Aside from "../Aside";
 
 function Layout() {
   // const { isAuthenticated } = UseAuth();
@@ -10,8 +11,9 @@ function Layout() {
   // }, [isAuthenticated]);
 
   return (
-    <div className="grow relative">
+    <div className="grow flex relative">
       <Page />
+      <Aside />
     </div>
   );
 }
