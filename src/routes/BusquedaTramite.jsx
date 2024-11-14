@@ -44,7 +44,11 @@ function BusquedaTramite() {
 
   return (
     <div className="bg-gray-200 h-full w-full flex flex-col gap-3 items-center">
-      <h2 className="text-primary text-3xl font-bold">Busqueda de tramites</h2>
+       <div className="w-full bg-white p-2 my-4 text-center  ">
+        <h2 className="text-primary text-3xl font-bold drop-shadow-xl">
+          Busqueda de Tramites
+        </h2>
+      </div>
 
       <div className="border-2 flex gap-2 justify-around rounded-lg items-center">
         <form className="flex gap-2 items-center" onSubmit={handleSubmit}>

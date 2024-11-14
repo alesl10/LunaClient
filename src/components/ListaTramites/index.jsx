@@ -7,6 +7,7 @@ import { format } from "date-fns"; // Importar date-fns para formatear la fecha
 
 function ListaTramites({ tramites, setPdfUrl, pdfUrl }) {
   const [openModal, setOpenModal] = useState(false);
+  const [nroTramitePDF, setNroTramitePDF] = useState("")
 
   // Configuración de paginación
   const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +41,7 @@ function ListaTramites({ tramites, setPdfUrl, pdfUrl }) {
     const response = await getPdfBinario(tramitepdf);
     const pdfBlob = base64ToBlob(response.data, "application/pdf");
     const url = URL.createObjectURL(pdfBlob);
+    setNroTramitePDF(tramitepdf.tramite.nroTramite)
     setPdfUrl(url);
     setOpenModal(true);
   };
@@ -63,7 +65,7 @@ function ListaTramites({ tramites, setPdfUrl, pdfUrl }) {
   };
 
   return (
-    <div className="w-2/3">
+    <div className="w-full p-5">
       {/* Tabla con la lista de trámites */}
       <Table striped>
         <Table.Head>
@@ -132,6 +134,8 @@ function ListaTramites({ tramites, setPdfUrl, pdfUrl }) {
         currentPage={currentPage}
         totalPages={Math.ceil(tramites.length / itemsPerPage)}
         onPageChange={handlePageChange}
+        previousLabel="Atras"
+        nextLabel="Siguiente"
       />
 
       <Modal
@@ -140,7 +144,7 @@ function ListaTramites({ tramites, setPdfUrl, pdfUrl }) {
         onClose={() => setOpenModal(false)}
         size="5xl"
       >
-        <Modal.Header>Terms of Service</Modal.Header>
+        <Modal.Header>Tramite Nro: {nroTramitePDF}</Modal.Header>
         <Modal.Body>
           <iframe
             src={pdfUrl}

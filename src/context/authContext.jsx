@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import {Navigate} from 'react-router-dom'
+import { Navigate } from "react-router-dom";
 import { login } from "../api/auth.js";
 import { getUserDbByName } from "../api/Usuario.js";
 import Cookies from "js-cookie";
@@ -18,7 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
   // check token
   useEffect(() => {
     async function checkLogin() {
@@ -42,13 +42,27 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signin = async (userData) => {
-    const response = await login(userData.nombre, userData.contraseña);
-    // console.log(response.data)
-    if (response.data.isSuccess == true) {
-      Cookies.set("token", userData.nombre);
-      setIsAuthenticated(true);
-      const rspUser = await getUserDbByName(userData.nombre);
-      setUser(rspUser.data);
+    try {
+      setIsLoading(true);
+      const response = await login(userData.nombre, userData.contraseña);
+      // console.log(response.data)
+      if (response.data.isSuccess == true) {
+        Cookies.set("token", userData.nombre);
+        setIsAuthenticated(true);
+        const rspUser = await getUserDbByName(userData.nombre);
+        setUser(rspUser.data);
+        setIsLoading(false);
+      } else {
+        setError(response.data.message);
+        setIsLoading(false);
+        // console.log(error);
+        setTimeout(() => {
+          setError();
+        }, 2000);
+      }
+    } catch (error) {
+      setError(error);
+      throw error;
     }
   };
 
@@ -60,7 +74,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, signin, logout }}>
+    <AuthContext.Provider
+      value={{ isAuthenticated, user, signin, logout, error, isLoading }}
+    >
       {children}
     </AuthContext.Provider>
   );

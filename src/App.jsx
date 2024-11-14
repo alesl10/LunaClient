@@ -10,6 +10,8 @@ import BusquedaSociedades from "./routes/BusquedaSociedades.jsx";
 import BusquedaTramite from "./routes/BusquedaTramite.jsx";
 import TipoTramite from "./routes/TipoTramite.jsx";
 import Destinos from "./routes/Destinos.jsx";
+import Usuarios from "./routes/Usuarios.jsx";
+import "@fontsource-variable/onest";
 
 function App() {
   return (
@@ -35,6 +37,7 @@ function App() {
               />
               <Route path="/tipostramite" element={<TipoTramite />} />
               <Route path="/destinos" element={<Destinos />} />
+              <Route path="/usuarios" element={<Usuarios />} />
               <Route
                 path="*"
                 element={

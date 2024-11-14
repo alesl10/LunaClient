@@ -1,7 +1,7 @@
 const ListaFunciones = ({ user }) => {
   return (
     <div className="grow flex flex-col mt-5 gap-4 text-start">
-      <h4 className="text-3xl text-primary font-semibold">Funciones</h4>
+      <h4 className="text-3xl text-primary font-semibold">Menu</h4>
       <ul>
         <div className="flex items-start flex-col flex-wrap gap-2 text-sm font-semibold text-blue-600 max-h-[300px]">
           <a

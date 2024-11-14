@@ -58,11 +58,13 @@ function BusquedaSociedad() {
 
   return (
     <div className="bg-gray-200 h-full w-full flex flex-col gap-4 items-center">
-      <h2 className="text-primary text-3xl font-bold">
-        Busqueda de Sociedades
-      </h2>
+      <div className="w-full bg-white p-2 my-4 text-center  ">
+        <h2 className="text-primary text-3xl font-bold drop-shadow-xl">
+          Busqueda de Sociedades
+        </h2>
+      </div>
 
-      <div className="border-2 rounded-lg">
+      <div className=" rounded-lg">
         <div className=" bg-red-600 text-white">
           <p>{error}</p>
         </div>

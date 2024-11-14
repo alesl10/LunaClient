@@ -15,7 +15,7 @@ function TablaSociedades({ sociedades }) {
   };
 
   return (
-    <div className="w-2/3">
+    <div className="w-full p-5">
       <Table striped>
         <Table.Head>
           <Table.HeadCell>Correlativo</Table.HeadCell>

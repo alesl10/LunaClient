@@ -1,12 +1,12 @@
 import { UseAuth } from "../context/authContext.jsx";
 import CardUser from "../components/Card";
-import Aside from "../components/Aside/index.jsx";
 import ListaFunciones from "../components/ListaFunciones/index.jsx";
 import { Carousel } from "flowbite-react";
 
 function Home() {
   const { user } = UseAuth();
 
+  
   return (
     <main className="bg-white h-full w-full text-center flex justify-between">
       <div className="border shadow-2xl shadow-primary w-full m-10 ">

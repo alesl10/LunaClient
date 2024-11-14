@@ -6,7 +6,7 @@ function CardUser({ user }) {
     user.usuario.apellido[0].toUpperCase();
 
   return (
-    <Card className="max-w-sm h-full grow  bg-yellow-100">
+    <Card className="max-w-sm h-full grow border border-primary/20 shadow-lg  bg-gray-100">
       <div className="flex flex-col items-center pb-10">
         <div
           alt="Foto perfil"

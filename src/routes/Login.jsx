@@ -3,10 +3,10 @@ import { UseAuth } from "../context/authContext";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { TextInput } from "flowbite-react";
+import Loading from "../components/Loading/Loading";
 
 function Login() {
-  const { isAuthenticated, signin } = UseAuth();
+  const { isAuthenticated, signin, error, isLoading } = UseAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
@@ -30,15 +30,24 @@ function Login() {
 
   return (
     <div className="max-w-md m-auto my-10">
-      <div className="border-2 border-[#f9b000] bg-blue-200 m-auto p-5 w-[500px] rounded-md shadow-md">
-        <h2 className="text-blue-700 font-bold text-2xl mb-2">Login</h2>
+      <div className="border-2 bg-blue-200 m-auto w-[400px] rounded-3xl shadow-lg shadow-primary">
+        <div className="bg-primary px-7 py-2 rounded-t-3xl flex justify-between">
+          <div>
+            <h2 className="text-white text-xl ">Bienvenido a</h2>
+            <h1 className="text-white font-bold text-3xl">LUNA</h1>
+          </div>
+          <img
+            src="IconoLunaFinal.png"
+            className=" mt-1 w-[80px]"
+            alt="IGJ Logo"
+          />
+        </div>
         {/* Mostrar error si existe */}
-        {/* {error && <div className="bg-red-600 text-white p-2 mb-4">{error}</div>} */}
+        {error && (
+          <div className=" text-red-800 font-bold p-1 px-5 mb-2">{error}</div>
+        )}
 
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className=" mx-auto p-4 "
-        >
+        <form onSubmit={handleSubmit(onSubmit)} className=" mx-auto px-8 p-4 ">
           <div className="mb-4">
             <input
               placeholder="Usuario"
@@ -81,12 +90,17 @@ function Login() {
           </div>
 
           {/* Botón de Login */}
-          <button
-            type="submit"
-            className="w-full py-2 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition"
-          >
-            Login
-          </button>
+
+          {isLoading ? (
+            <Loading />
+          ) : (
+            <button
+              type="submit"
+              className="w-full py-2 bg-primary text-white rounded-md font-semibold hover:bg-blue-600 transition"
+            >
+              Login
+            </button>
+          )}
         </form>
       </div>
     </div>
