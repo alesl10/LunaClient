@@ -7,7 +7,7 @@ const Aside = () => {
   const diaSemana = date.toLocaleString("es-ES", { weekday: "long" });
 
   return (
-    <aside className=" h-full bg-gray-300 hidden lg:flex flex-col items-center p-10 shadow-md border-x-4 ">
+    <aside className=" h-full bg-gray-100 hidden lg:flex flex-col items-center p-10 shadow-md border-x-4 ">
       {/* // calendario */}
       <div className="w-32 flex-none rounded  lg:rounded-t-none lg:rounded-l text-center shadow-lg ">
         <div className="block rounded-xl overflow-hidden  text-center bg-blue-600 ">

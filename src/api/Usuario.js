@@ -31,3 +31,13 @@ export const addUser = async (usuario) => {
     throw error;
   }
 };
+
+export const editUser = async (usuario) => {
+  try {
+    const response = await axios.post("/usuario/edituser", usuario);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

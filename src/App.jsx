@@ -12,6 +12,8 @@ import TipoTramite from "./routes/TipoTramite.jsx";
 import Destinos from "./routes/Destinos.jsx";
 import Usuarios from "./routes/Usuarios.jsx";
 import "@fontsource-variable/onest";
+import Roles from "./routes/Roles.jsx";
+import Funciones from "./routes/Funciones.jsx";
 
 function App() {
   return (
@@ -37,7 +39,9 @@ function App() {
               />
               <Route path="/tipostramite" element={<TipoTramite />} />
               <Route path="/destinos" element={<Destinos />} />
-              <Route path="/usuarios" element={<Usuarios />} />
+              <Route path="/AdministradorUsuarios" element={<Usuarios />} />
+              <Route path="/roles" element={<Roles />} />
+              <Route path="/funciones" element={<Funciones />} />
               <Route
                 path="*"
                 element={

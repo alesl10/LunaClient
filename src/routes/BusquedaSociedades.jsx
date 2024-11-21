@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getSociedad } from "../api/Expediente.js";
 import { getTipoSocietarios } from "../api/TipoSocietario.js";
-import TablaSociedades from "../components/ListaSociedades/index.jsx";
+import TablaSociedades from "../components/Lists/Sociedades.jsx";
 import Loading from "../components/Loading/Loading.jsx";
 
 function BusquedaSociedad() {
@@ -68,7 +68,7 @@ function BusquedaSociedad() {
         <div className=" bg-red-600 text-white">
           <p>{error}</p>
         </div>
-        <form className="flex gap-2 items-center" onSubmit={buscarSociedad}>
+        <form className="flex gap-2 " onSubmit={buscarSociedad}>
           <input
             onChange={(e) => setCorrelativo(e.target.value)} // Aquí se maneja el cambio de estado correctamente
             value={correlativo}
@@ -97,7 +97,7 @@ function BusquedaSociedad() {
           </select>
           <button
             type="submit"
-            className="px-4 font-semibold bg-blue-500 text-yellow-300 rounded-md"
+            className="px-4  font-semibold bg-blue-500 text-yellow-300 rounded-md"
           >
             Buscar
           </button>

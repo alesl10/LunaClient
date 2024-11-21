@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getTramites, getTramitesDigitalizados } from "../api/Tramite.js";
-import ListaTramites from "../components/ListaTramites/index.jsx";
+import { getTramitesDigitalizados } from "../api/Tramite.js";
+import ListaTramites from "../components/Lists/Tramites.jsx";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading/Loading.jsx";
 
@@ -10,7 +10,6 @@ function BusquedaTramite() {
   const [pdfUrl, setPdfUrl] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-  
 
   const { correlativo: correlativoUrl } = useParams();
 
@@ -44,7 +43,7 @@ function BusquedaTramite() {
 
   return (
     <div className="bg-gray-200 h-full w-full flex flex-col gap-3 items-center">
-       <div className="w-full bg-white p-2 my-4 text-center  ">
+      <div className="w-full bg-white p-2 my-4 text-center  ">
         <h2 className="text-primary text-3xl font-bold drop-shadow-xl">
           Busqueda de Tramites
         </h2>
@@ -69,6 +68,7 @@ function BusquedaTramite() {
         >
           volver
         </button>
+       
       </div>
 
       {isLoading ? (

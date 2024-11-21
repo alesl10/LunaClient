@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Table, Pagination } from "flowbite-react";
 import { Link } from "react-router-dom";
 
-function TablaSociedades({ sociedades }) {
+function TablaSociedades({ sociedades = [] }) {
   // configuracion paginacion
   const [currentPage, setCurrentPage] = useState(1);
 

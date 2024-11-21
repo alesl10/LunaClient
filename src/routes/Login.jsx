@@ -34,7 +34,8 @@ function Login() {
         <div className="bg-primary px-7 py-2 rounded-t-3xl flex justify-between">
           <div>
             <h2 className="text-white text-xl ">Bienvenido a</h2>
-            <h1 className="text-white font-bold text-3xl">LUNA</h1>
+            <img src="luna5.png" className=" w-[150px]" alt="Luna Logo" />
+
           </div>
           <img
             src="IconoLunaFinal.png"

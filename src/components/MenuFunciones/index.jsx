@@ -1,4 +1,4 @@
-const ListaFunciones = ({ user }) => {
+const MenuFunciones = ({ user }) => {
   return (
     <div className="grow flex flex-col mt-5 gap-4 text-start">
       <h4 className="text-3xl text-primary font-semibold">Menu</h4>
@@ -25,4 +25,4 @@ const ListaFunciones = ({ user }) => {
   );
 };
 
-export default ListaFunciones;
+export default MenuFunciones;

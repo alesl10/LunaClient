@@ -1,19 +1,59 @@
 import { Modal } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { addUser } from "../../api/Usuario.js";
-import { useEffect } from "react";
+import { addUser, editUser } from "../../api/Usuario.js";
+import { useEffect, useState } from "react";
 
-const ModalView = ({ openModal, setOpenModal, departamentos }) => {
-  // config formulario
-  const { register, handleSubmit, setValue } = useForm();
+const ModalView = ({
+  openModal,
+  setOpenModal,
+  departamentos,
+  setUser,
+  user = {},
+  isEditMode,
+}) => {
+  // Configuración del formulario
+  const { register, handleSubmit, reset } = useForm();
+  const [roles, setRoles] = useState([]);
 
-  function onCloseModal() {
+  useEffect(() => {
+    if (isEditMode && user && Object.keys(user).length) {
+      reset({
+        nombre: user.nombre || "",
+        apellido: user.apellido || "",
+        Documento: user.documento || "",
+        userName: user.userName || "",
+        idDpto: user.idDpto || "",
+      });
+    } else {
+      reset({
+        nombre: "",
+        apellido: "",
+        Documento: "",
+        userName: "",
+        idDpto: "",
+      });
+    }
+  }, [user, isEditMode, reset]);
+
+  // Función para cerrar el modal
+  const onCloseModal = () => {
+    setUser(null);
     setOpenModal(false);
-  }
+  };
 
   const onSubmit = handleSubmit(async (values) => {
-    const response = await addUser(values);
-    console.log(response);
+    if (isEditMode) {
+      const updateUser = {
+        ...user,
+        ...values,
+      };
+      const response = await editUser(updateUser);
+      console.log(response);
+    } else {
+      const response = await addUser(values);
+      console.log(response);
+    }
+    onCloseModal();
   });
 
   return (
@@ -22,7 +62,7 @@ const ModalView = ({ openModal, setOpenModal, departamentos }) => {
       <Modal.Body>
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className=" mx-auto flex flex-col"
+          className="mx-auto flex flex-col"
         >
           <label>Nombre: </label>
           <input
@@ -44,7 +84,7 @@ const ModalView = ({ openModal, setOpenModal, departamentos }) => {
             className="w-full py-2 px-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
-          <label>documento: </label>
+          <label>Documento: </label>
           <input
             placeholder="Documento"
             type="text"
@@ -66,7 +106,7 @@ const ModalView = ({ openModal, setOpenModal, departamentos }) => {
 
           <label>Departamento:</label>
           <select {...register("idDpto")}>
-            <option value=""></option>
+            <option value="">Seleccione un departamento</option>
             {departamentos.map((d, i) => (
               <option value={d.id} key={i}>
                 {d.descripcion}
@@ -74,8 +114,12 @@ const ModalView = ({ openModal, setOpenModal, departamentos }) => {
             ))}
           </select>
 
-          <button type="button" onClick={onSubmit} className="">
-            Agregar usuario
+          <button
+            type="submit"
+            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md"
+          >
+            {isEditMode ? "Actualizar" : "Agregar"}{" "}
+            {/* Cambiar el texto según el modo */}
           </button>
         </form>
       </Modal.Body>

@@ -1,7 +1,7 @@
 import Loading from "../components/Loading/Loading.jsx";
 import { getUsers } from "../api/Usuario.js";
 import { useState, useEffect } from "react";
-import ListUsuarios from "../components/ListUsuarios/index.jsx";
+import ListUsuarios from "../components/Lists/Usuarios.jsx";
 
 const Destinos = () => {
   const [isLoading, setIsLoading] = useState(false);

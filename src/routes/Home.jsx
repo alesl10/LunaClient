@@ -1,6 +1,6 @@
 import { UseAuth } from "../context/authContext.jsx";
 import CardUser from "../components/Card";
-import ListaFunciones from "../components/ListaFunciones/index.jsx";
+import MenuFunciones from "../components/MenuFunciones/index.jsx";
 import { Carousel } from "flowbite-react";
 
 function Home() {
@@ -14,7 +14,7 @@ function Home() {
           <div className="flex flex-col justify-between h-full">
             <div className="flex grow items-center gap-6 p-4">
               <CardUser user={user} />
-              <ListaFunciones user={user} />
+              <MenuFunciones user={user} />
             </div>
             <div className="h-40">
               <Carousel>

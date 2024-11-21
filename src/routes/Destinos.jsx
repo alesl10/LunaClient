@@ -1,4 +1,4 @@
-import ListDestinos from "../components/ListDestinos/index.jsx";
+import ListDestinos from "../components/Lists/Destinos.jsx";
 import Loading from "../components/Loading/Loading.jsx";
 import { getDestinos } from "../api/Destinos.js";
 import { useState, useEffect } from "react";
