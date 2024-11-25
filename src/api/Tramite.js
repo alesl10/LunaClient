@@ -11,3 +11,12 @@ export const getTramites = async (tramite) => {
 
 export const getTramitesDigitalizados = async (tramite) =>
   axios.post("/tramite/gettramitesdigitalizados", tramite);
+
+export const GetTramitesDestino = async (destino) => {
+  try {
+    const response = await axios.post("/destinoTramite", destino);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

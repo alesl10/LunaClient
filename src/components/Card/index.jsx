@@ -1,9 +1,12 @@
 import { Card } from "flowbite-react";
+import { Link } from "react-router-dom";
 
 function CardUser({ user }) {
   const iniciales =
     user.usuario.nombre[0].toUpperCase() +
     user.usuario.apellido[0].toUpperCase();
+
+  const str = user.usuario.departamento.acronimo.replace(/[\[\]\s]/g, "");
 
   return (
     <Card className="max-w-sm h-full grow border border-primary/20 shadow-lg  bg-gray-100">
@@ -35,6 +38,7 @@ function CardUser({ user }) {
             Salir
           </a>
         </div>
+          <Link to={`/bandejaentrada/${str}`}>Ir a bandeja de Entrada</Link>
       </div>
     </Card>
   );

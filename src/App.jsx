@@ -14,6 +14,7 @@ import Usuarios from "./routes/Usuarios.jsx";
 import "@fontsource-variable/onest";
 import Roles from "./routes/Roles.jsx";
 import Funciones from "./routes/Funciones.jsx";
+import BandejaEntrada from "./routes/BandejaEntrada.jsx";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
               <Route path="/AdministradorUsuarios" element={<Usuarios />} />
               <Route path="/roles" element={<Roles />} />
               <Route path="/funciones" element={<Funciones />} />
+              <Route path="/BandejaEntrada/:area" element={<BandejaEntrada />} />
               <Route
                 path="*"
                 element={

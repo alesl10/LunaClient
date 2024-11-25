@@ -21,20 +21,16 @@ export const AuthProvider = ({ children }) => {
 
   // check token
   useEffect(() => {
-    async function checkLogin() {
-      const token = Cookies.get("token");
-      // console.log(token)
-      if (token) {
-        setIsAuthenticated(true);
+    function checkLogin() {
+      const tokenString = Cookies.get("token");
+      if (tokenString) {
         try {
-          const res = await getUserDbByName(token);
-          // console.log(res);
-          if (res.data) {
-            setUser(res.data);
-          }
+          // Convierte el string de vuelta a un objeto
+          const token = JSON.parse(tokenString);
+          setUser(token);
+          setIsAuthenticated(true);
         } catch (error) {
-          setIsAuthenticated(false);
-          setUser(null);
+          console.error("Error al parsear el token:", error);
         }
       }
     }
@@ -47,11 +43,11 @@ export const AuthProvider = ({ children }) => {
       const response = await login(userData.nombre, userData.contraseña);
       // console.log(response.data)
       if (response.data.isSuccess == true) {
-        Cookies.set("token", userData.nombre);
         setIsAuthenticated(true);
         const rspUser = await getUserDbByName(userData.nombre);
         setUser(rspUser.data);
         setIsLoading(false);
+        Cookies.set("token", JSON.stringify(rspUser.data));
       } else {
         setError(response.data.message);
         setIsLoading(false);
