@@ -1,4 +1,5 @@
 import { Card } from "flowbite-react";
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
 function CardUser({ user }) {
@@ -10,7 +11,7 @@ function CardUser({ user }) {
 
   return (
     <Card className="max-w-sm h-full grow border border-primary/20 shadow-lg  bg-gray-100">
-      <div className="flex flex-col items-center pb-10">
+      <div className="flex flex-col  items-center pb-10">
         <div
           alt="Foto perfil"
           className="mb-3 bg-primary text-white font-bold h-[100px] w-[100px] flex items-center justify-center rounded-full shadow-2xl"
@@ -38,7 +39,8 @@ function CardUser({ user }) {
             Salir
           </a>
         </div>
-          <Link to={`/bandejaentrada/${str}`}>Ir a bandeja de Entrada</Link>
+          <Link className="mt-4 font-semibold text-primary text-xl" to={`/bandejaentrada/${str}`}>Bandeja de Entrada Gral</Link>
+          {/* <Link className="mt-4 font-semibold text-primary text-xl" to={`/bandejaentrada/${str}/${}`}>bandeja de Entrada Personal</Link> */}
       </div>
     </Card>
   );

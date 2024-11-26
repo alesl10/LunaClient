@@ -44,6 +44,7 @@ function App() {
               <Route path="/roles" element={<Roles />} />
               <Route path="/funciones" element={<Funciones />} />
               <Route path="/BandejaEntrada/:area" element={<BandejaEntrada />} />
+              <Route path="/BandejaEntrada/:area/:usuario" element={<BandejaEntrada />} />
               <Route
                 path="*"
                 element={

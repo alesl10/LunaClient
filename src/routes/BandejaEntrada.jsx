@@ -8,12 +8,13 @@ const BandejaEntrada = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [tramites, setTramites] = useState([]);
   
-  const {area: str } = useParams();
+  const {area: str, usuario:dest } = useParams();
   
 
   useEffect(() => {
     if (str) {
-      const destino = { CodigoDestino: str };
+      const destino = { CodigoDestino: str, usuarioDestino: dest };
+      console.log(destino)
       cargarTramites(destino);
     }
   }, [str]);

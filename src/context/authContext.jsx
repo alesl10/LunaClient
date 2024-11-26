@@ -2,7 +2,6 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { login } from "../api/auth.js";
 import { getUserDbByName } from "../api/Usuario.js";
-import Cookies from "js-cookie";
 
 export const AuthContext = createContext();
 export const UseAuth = () => {
@@ -22,15 +21,13 @@ export const AuthProvider = ({ children }) => {
   // check token
   useEffect(() => {
     function checkLogin() {
-      const tokenString = Cookies.get("token");
-      if (tokenString) {
+      let usuarioGuardado = JSON.parse(sessionStorage.getItem('usuario'));
+      if (usuarioGuardado) {
         try {
-          // Convierte el string de vuelta a un objeto
-          const token = JSON.parse(tokenString);
-          setUser(token);
+          setUser(usuarioGuardado);
           setIsAuthenticated(true);
         } catch (error) {
-          console.error("Error al parsear el token:", error);
+          console.error("Error al parsear el usuario: ", error);
         }
       }
     }
@@ -47,7 +44,7 @@ export const AuthProvider = ({ children }) => {
         const rspUser = await getUserDbByName(userData.nombre);
         setUser(rspUser.data);
         setIsLoading(false);
-        Cookies.set("token", JSON.stringify(rspUser.data));
+        sessionStorage.setItem("usuario", JSON.stringify(rspUser.data));
       } else {
         setError(response.data.message);
         setIsLoading(false);
@@ -63,7 +60,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    Cookies.remove("token");
+    sessionStorage.removeItem("usuario");
     setIsAuthenticated(false);
     setUser(null);
     Navigate("/");
