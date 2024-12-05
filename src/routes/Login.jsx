@@ -38,7 +38,7 @@ function Login() {
 
           </div>
           <img
-            src="IconoLunaFinal.png"
+            src="nuevoLogo.png"
             className=" mt-1 w-[80px]"
             alt="IGJ Logo"
           />

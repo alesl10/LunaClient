@@ -12,7 +12,10 @@ export const getTramites = async (tramite) => {
 export const getTramitesDigitalizados = async (tramite) =>
   axios.post("/tramite/gettramitesdigitalizados", tramite);
 
-export const GetTramitesDestino = async (destino) => {
+
+
+  
+export const GetTramitesDestinoRecibidos = async (destino) => {
   try {
     const response = await axios.post("/destinoTramite", destino);
     return response.data;
@@ -20,3 +23,13 @@ export const GetTramitesDestino = async (destino) => {
     console.log(error);
   }
 };
+
+export const GetTramitesSinRecibir = async (destino)=>{
+  try {
+    const response = await axios.get(`/DestinoTramite?destinoDpto=${destino}`);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    
+  }
+}

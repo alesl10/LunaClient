@@ -39,7 +39,7 @@ function CardUser({ user }) {
             Salir
           </a>
         </div>
-          <Link className="mt-4 font-semibold text-primary text-xl" to={`/bandejaentrada/${str}`}>Bandeja de Entrada Gral</Link>
+          <Link className="mt-4 font-semibold text-primary text-xl" to={`/bandejaentrada`}>Bandeja de Entrada Gral</Link>
           {/* <Link className="mt-4 font-semibold text-primary text-xl" to={`/bandejaentrada/${str}/${}`}>bandeja de Entrada Personal</Link> */}
       </div>
     </Card>

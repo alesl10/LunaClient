@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { login } from "../api/auth.js";
 import { getUserDbByName } from "../api/Usuario.js";
+import { useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 export const UseAuth = () => {
@@ -17,18 +18,24 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   // check token
   useEffect(() => {
     function checkLogin() {
-      let usuarioGuardado = JSON.parse(sessionStorage.getItem('usuario'));
+      let usuarioGuardado = JSON.parse(sessionStorage.getItem("usuario"));
       if (usuarioGuardado) {
         try {
           setUser(usuarioGuardado);
           setIsAuthenticated(true);
+          if (location.pathname === "/" || location.pathname === "/login") {
+            navigate("/home");
+          }
         } catch (error) {
           console.error("Error al parsear el usuario: ", error);
         }
+      } else {
+        navigate("/");
       }
     }
     checkLogin();
@@ -63,7 +70,7 @@ export const AuthProvider = ({ children }) => {
     sessionStorage.removeItem("usuario");
     setIsAuthenticated(false);
     setUser(null);
-    Navigate("/");
+    navigate("/");
   };
 
   return (

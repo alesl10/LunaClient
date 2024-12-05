@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Table, Pagination } from "flowbite-react";
+import ModalView from "../Modals/Funcion.jsx";
 
 
 const ListFunciones = ({ funciones }) => {
@@ -28,15 +29,10 @@ const ListFunciones = ({ funciones }) => {
 
   return (
     <div className="w-full px-4 flex flex-col ">
-      {/* <ModalViewRol
+      <ModalView
         openModal={openModal}
         setOpenModal={setOpenModal}
-        rolId={rolId}
-        funcionesAsignadas={funcionesAsignadas}
-        funcionesNoAsignadas={funcionesNoAsignadas}
-        setFuncionesAsignadas={setFuncionesAsignadas}
-        setFuncionesNoAsignadas={setFuncionesNoAsignadas}
-      /> */}
+      />
       <div className="border-2 flex gap-2 justify-around rounded-lg mb-2 items-center">
         {/* Input de búsqueda */}
         <input

@@ -2,3 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+.urgente{
+    background-color: rgba(252, 32, 32, 0.801) !important;
+color:white;
+}

@@ -18,9 +18,9 @@ import BandejaEntrada from "./routes/BandejaEntrada.jsx";
 
 function App() {
   return (
-    <AuthProvider>
-      <BrowserRouter>
-        <main className="relative flex flex-col justify-between h-svh">
+    <BrowserRouter>
+      <AuthProvider>
+        <main className="relative flex flex-col justify-between h-svh transition-all">
           <div className="absolute w-full h-full bg-black/20 -z-10"></div>
           <img
             src="semana_18.jpg"
@@ -30,21 +30,24 @@ function App() {
           <Header />
           <Routes>
             <Route path="/" element={<Login />} />
-            <Route element={<Layout />}>
-              <Route path="/home" element={<Home />} />
-              <Route path="/busquedaexp" element={<BusquedaSociedades />} />
-              <Route path="/busquedatramites" element={<BusquedaTramite />} />
+            <Route path="/*" element={<Layout />}>
+              <Route path="home" element={<Home />} />
+              <Route path="busquedaexp" element={<BusquedaSociedades />} />
+              <Route path="busquedatramites" element={<BusquedaTramite />} />
               <Route
-                path="/busquedatramites/:correlativo"
+                path="busquedatramites/:correlativo"
                 element={<BusquedaTramite />}
               />
-              <Route path="/tipostramite" element={<TipoTramite />} />
-              <Route path="/destinos" element={<Destinos />} />
-              <Route path="/AdministradorUsuarios" element={<Usuarios />} />
-              <Route path="/roles" element={<Roles />} />
-              <Route path="/funciones" element={<Funciones />} />
-              <Route path="/BandejaEntrada/:area" element={<BandejaEntrada />} />
-              <Route path="/BandejaEntrada/:area/:usuario" element={<BandejaEntrada />} />
+              <Route path="tipostramite" element={<TipoTramite />} />
+              <Route path="destinos" element={<Destinos />} />
+              <Route path="AdministradorUsuarios" element={<Usuarios />} />
+              <Route path="roles" element={<Roles />} />
+              <Route path="AdministradorFunciones" element={<Funciones />} />
+              <Route path="BandejaEntrada" element={<BandejaEntrada />} />
+              <Route
+                path="BandejaEntrada/:area/:usuario"
+                element={<BandejaEntrada />}
+              />
               <Route
                 path="*"
                 element={
@@ -57,8 +60,8 @@ function App() {
           </Routes>
           <FooterLuna />
         </main>
-      </BrowserRouter>
-    </AuthProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 }
 
