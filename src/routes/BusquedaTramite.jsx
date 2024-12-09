@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Swal from 'sweetalert2'
 import { getTramitesDigitalizados } from "../api/Tramite.js";
 import ListaTramites from "../components/Lists/Tramites.jsx";
 import { useNavigate, useParams } from "react-router-dom";
@@ -29,7 +30,12 @@ function BusquedaTramite() {
       setTramites(rsp.data.data);
       setIsLoading(false);
     } catch (error) {
-      console.error("Error al buscar trámites:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
+      setIsLoading(false)
     }
   };
 

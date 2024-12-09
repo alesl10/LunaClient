@@ -2,12 +2,14 @@ import { Table, Pagination } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import ModalView from "../Modals/detalleTramite.jsx";
+import { TbUrgent } from "react-icons/tb";
 
 const Bandeja = ({ tramites = [] }) => {
   // Configuración de paginación
   const [openModal, setOpenModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [tramite, setTramite] = useState();
+  // const [viewBotonModal, setViewBotonModal] = useState(false);
   const [tramitesFiltrados, setTramitesFiltrados] = useState([]);
   const [tramitesOrdenados, setTramitesOrdenados] = useState([]);
   const itemsPerPage = 10;
@@ -76,7 +78,13 @@ const Bandeja = ({ tramites = [] }) => {
   };
 
   return (
-    <div className="w-full px-10">
+    <div className="w-full  px-10">
+    
+      {/* <div className={`fixed bottom-10 right-20 flex  gap-2 z-20 ${viewBotonModal ? "" : "hidden"}`}>
+        <button className=" px-3 py-1 mt-1 m-auto  bg-[#6A9AB0] text-white rounded-full border-2 border-primary  hover:saturate-150">Asignar todos</button>
+        <button className=" px-3 py-1 mt-1 m-auto  bg-secondary text-primary rounded-full border-2 border-primary  hover:saturate-150">Recibir todos</button>
+      </div> */}
+
       <ModalView
         openModal={openModal}
         setOpenModal={setOpenModal}
@@ -145,10 +153,14 @@ const Bandeja = ({ tramites = [] }) => {
           <Table.HeadCell className="bg-secondary">Tramite</Table.HeadCell>
           <Table.HeadCell className="bg-secondary">entidad</Table.HeadCell>
           <Table.HeadCell className="bg-secondary">tipo</Table.HeadCell>
-          <Table.HeadCell className="bg-secondary">Destino</Table.HeadCell>
+          <Table.HeadCell className="bg-secondary">
+            Destino <br />
+            Actual/Anterior
+          </Table.HeadCell>
           <Table.HeadCell className="bg-secondary">estado</Table.HeadCell>
           <Table.HeadCell className="bg-secondary">accion</Table.HeadCell>
           <Table.HeadCell className="bg-secondary">Urgente</Table.HeadCell>
+          <Table.HeadCell className="bg-secondary"></Table.HeadCell>
         </Table.Head>
         <Table.Body className="divide-y">
           {currentItems.map((tramite, i) => (
@@ -170,7 +182,7 @@ const Bandeja = ({ tramites = [] }) => {
               >
                 <div className="flex gap-2">
                   <div className="flex flex-col ">
-                    <p className="text-base font-semibold">
+                    <p className="text-base font-semibold text-primary">
                       {tramite.numerotramite}
                     </p>
                     <p>
@@ -194,7 +206,7 @@ const Bandeja = ({ tramites = [] }) => {
               <Table.Cell>
                 <div className="flex items-center justify-start gap-3 ">
                   <div className="flex flex-col ">
-                    <h4 className="text-md flex gap-2 font-semibold">
+                    <h4 className="text-md flex gap-2 font-semibold text-primary">
                       {tramite.descripcionTramite} - {tramite.codigoTramite}
                     </h4>
                     <span>{tramite.areaDestinoActual}</span>
@@ -208,29 +220,31 @@ const Bandeja = ({ tramites = [] }) => {
                 <div className="flex items-center justify-start gap-3 ">
                   <div className="flex flex-col ">
                     <span>{tramite.correlativo}</span>
-                    <span>{tramite.razonSocial}</span>
+                    <span className="text-primary font-semibold">
+                      {tramite.razonSocial}
+                    </span>
                     <span>{tramite.tipoSocietario}</span>
                   </div>
                 </div>
               </Table.Cell>
               {/* Columna 4 */}
               <Table.Cell>
-                <div className={` justify-center flex items-center gap-2 `}>
-                  <p className="text-md">
-                    {tramite.registralInfoContable == "R"
-                      ? "Registral"
-                      : tramite.registralInfoContable == "C"
-                      ? "Contable"
-                      : tramite.registralInfoContable == "I"
-                      ? "Informativo"
-                      : ""}
-                  </p>
-                </div>
+                <p className="text-md">
+                  {tramite.registralInfoContable == "R"
+                    ? "Registral"
+                    : tramite.registralInfoContable == "C"
+                    ? "Contable"
+                    : tramite.registralInfoContable == "I"
+                    ? "Informativo"
+                    : ""}
+                </p>
               </Table.Cell>
 
               {/* columna 5 */}
               <Table.Cell>
-                <p className="text-2xl">{tramite.codigoDestino}</p>
+                <p className="text-base text-center">
+                  {tramite.codigoDestino} / {tramite.destinoAnterior}
+                </p>
               </Table.Cell>
 
               {/* Columna 6 */}
@@ -240,12 +254,18 @@ const Bandeja = ({ tramites = [] }) => {
                     {tramite.nombreUsuarioAsigando ? (
                       <div>
                         <span>Recibido por:</span>
-                        <p className="font-bold text-black">{tramite.nombreUsuarioRecepciona ? tramite.nombreUsuarioRecepciona : "Sin Recibir"}</p>
+                        <p className="font-bold text-primary">
+                          {tramite.nombreUsuarioRecepciona
+                            ? tramite.nombreUsuarioRecepciona
+                            : "Sin Recibir"}
+                        </p>
                         <span>Asignado a:</span>
-                        <p className="font-bold text-black">{tramite.nombreUsuarioAsigando}</p>
+                        <p className="font-bold text-primary">
+                          {tramite.nombreUsuarioAsigando}
+                        </p>
                       </div>
                     ) : (
-                      <span className="font-bold text-black">
+                      <span className="font-bold text-primary">
                         {tramite.nombreUsuarioRecepciona
                           ? `RECIBIDO POR : \n ${tramite.nombreUsuarioRecepciona}`
                           : "SIN RECIBIR"}
@@ -300,11 +320,14 @@ const Bandeja = ({ tramites = [] }) => {
               <Table.Cell>
                 {tramite.urgenteNormal == "U" ? (
                   <span className="text-red-700 text-base font-semibold">
-                    URGENTE
+                    <TbUrgent className="size-10"/>
                   </span>
                 ) : (
                   ""
                 )}
+              </Table.Cell>
+              <Table.Cell className=" bg-transparent">
+                <input type="checkbox"  />
               </Table.Cell>
             </Table.Row>
           ))}

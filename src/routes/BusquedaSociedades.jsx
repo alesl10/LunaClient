@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import Swal from 'sweetalert2'
 import { getSociedad } from "../api/Expediente.js";
 import { getTipoSocietarios } from "../api/TipoSocietario.js";
 import TablaSociedades from "../components/Lists/Sociedades.jsx";
@@ -32,27 +33,35 @@ function BusquedaSociedad() {
   const buscarSociedad = async (e) => {
     setIsLoading(true);
     e.preventDefault();
-    const modelo = {
-      correlativo: correlativo || null,
-      razonSocial: razonSocial || null,
-      codigoTipoSocietario: codigoTipoSocietario || null,
-    };
-    if (
-      modelo.razonSocial != null ||
-      modelo.correlativo != null ||
-      modelo.codigoTipoSocietario != null
-    ) {
-      const rsp = await getSociedad(modelo);
-      setSociedades(rsp.data.data);
-      setCorrelativo("");
-      setRazonSocial("");
-      setCodigoTipoSocietario("");
-      setIsLoading(false);
-    } else {
-      setError("Debe ingresar al menos un campo");
-      setTimeout(() => {
-        setError();
-      }, 2000);
+    try {
+      const modelo = {
+        correlativo: correlativo || null,
+        razonSocial: razonSocial || null,
+        codigoTipoSocietario: codigoTipoSocietario || null,
+      };
+      if (
+        modelo.razonSocial != null ||
+        modelo.correlativo != null ||
+        modelo.codigoTipoSocietario != null
+      ) {
+        const rsp = await getSociedad(modelo);
+        setSociedades(rsp.data.data);
+        setCorrelativo("");
+        setRazonSocial("");
+        setCodigoTipoSocietario("");
+        setIsLoading(false);
+      } else {
+        setError("Debe ingresar al menos un campo");
+        setTimeout(() => {
+          setError();
+        }, 2000);
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
     }
   };
 

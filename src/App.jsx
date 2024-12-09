@@ -45,10 +45,6 @@ function App() {
               <Route path="AdministradorFunciones" element={<Funciones />} />
               <Route path="BandejaEntrada" element={<BandejaEntrada />} />
               <Route
-                path="BandejaEntrada/:area/:usuario"
-                element={<BandejaEntrada />}
-              />
-              <Route
                 path="*"
                 element={
                   <div className="w-full h-full text-4xl bg-white text-center flex justify-center items-center">

@@ -13,10 +13,20 @@ const Destinos = () => {
 
   const cargarUsuarios = async () => {
     setIsLoading(true);
-    const response = await getUsers();
-    if (response.isSuccess == true) {
-        setUsuarios(response.data);
-      setIsLoading(false);
+    try {
+      const response = await getUsers();
+      if (response.isSuccess == true) {
+          setUsuarios(response.data);
+        setIsLoading(false);
+      }
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
+      setIsLoading(false)
     }
   };
 

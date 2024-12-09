@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Loading from "../components/Loading/Loading.jsx";
 import TiposTramites from "../components/TiposTramite/index.jsx";
+import Swal from 'sweetalert2'
 import {
   getTiposTramites,
   getTiposTramitesByCodigo,
@@ -17,10 +18,20 @@ const TipoTramite = () => {
 
   const cargarTiposTramite = async () => {
     setIsLoading(true);
-    const response = await getTiposTramites();
-    if (response.isSuccess == true) {
-      setTiposTramite(response.data);
-      setIsLoading(false);
+    try {
+      const response = await getTiposTramites();
+      if (response.isSuccess == true) {
+        setTiposTramite(response.data);
+        setIsLoading(false);
+      }
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
+      setIsLoading(false)
     }
   };
 

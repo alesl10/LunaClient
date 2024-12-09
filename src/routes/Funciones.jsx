@@ -2,6 +2,7 @@ import Loading from "../components/Loading/Loading.jsx";
 import { useState, useEffect } from "react";
 import {getFunciones, } from '../api/Funcion.js'
 import ListFunciones from "../components/Lists/Funciones.jsx"
+import Swal from 'sweetalert2'
 
 const Funciones = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,10 +14,20 @@ const Funciones = () => {
 
   const cargarFunciones = async () => {
     setIsLoading(true);
-    const response = await getFunciones();
-    if (response.isSuccess == true) {
-        setFunciones(response.data);
-      setIsLoading(false);
+    try {
+      const response = await getFunciones();
+      if (response.isSuccess == true) {
+          setFunciones(response.data);
+        setIsLoading(false);
+      }
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
+      setIsLoading(false)
     }
   };
 

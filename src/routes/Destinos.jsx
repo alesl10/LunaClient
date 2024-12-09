@@ -2,6 +2,7 @@ import ListDestinos from "../components/Lists/Destinos.jsx";
 import Loading from "../components/Loading/Loading.jsx";
 import { getDestinos } from "../api/Destinos.js";
 import { useState, useEffect } from "react";
+import Swal from 'sweetalert2'
 
 const Destinos = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,10 +14,20 @@ const Destinos = () => {
 
   const cargarDestinos = async () => {
     setIsLoading(true);
-    const response = await getDestinos();
-    if (response.isSuccess == true) {
-      setDestinos(response.data);
-      setIsLoading(false);
+    try {
+      const response = await getDestinos();
+      if (response.isSuccess == true) {
+        setDestinos(response.data);
+        setIsLoading(false);
+      }
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
+      setIsLoading(false)
     }
   };
 

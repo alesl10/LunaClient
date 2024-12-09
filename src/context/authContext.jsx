@@ -42,8 +42,8 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signin = async (userData) => {
+    setIsLoading(true);
     try {
-      setIsLoading(true);
       const response = await login(userData.nombre, userData.contraseña);
       // console.log(response.data)
       if (response.data.isSuccess == true) {
@@ -58,11 +58,17 @@ export const AuthProvider = ({ children }) => {
         // console.log(error);
         setTimeout(() => {
           setError();
-        }, 2000);
+        }, 3000);
       }
     } catch (error) {
-      setError(error);
-      throw error;
+      setIsLoading(false); 
+      
+      const errorMessage = error.response ? error.response.data.message : "Hubo un problema con la conexión al servidor";
+      setError(errorMessage); 
+      console.error(error); 
+      setTimeout(() => {
+        setError();
+      }, 3000);
     }
   };
 

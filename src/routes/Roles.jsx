@@ -2,6 +2,7 @@ import Loading from "../components/Loading/Loading.jsx";
 import { getAllRoles } from "../api/rol.js";
 import { useState, useEffect } from "react";
 import ListRoles from "../components/Lists/Roles.jsx";
+import Swal from 'sweetalert2'
 
 const Roles = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -13,10 +14,20 @@ const Roles = () => {
 
   const cargarRoles = async () => {
     setIsLoading(true);
-    const response = await getAllRoles();
-    if (response.isSuccess == true) {
-      setRoles(response.data);
-      setIsLoading(false);
+    try {
+      const response = await getAllRoles();
+      if (response.isSuccess == true) {
+        setRoles(response.data);
+        setIsLoading(false);
+      }
+      
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
+      setIsLoading(false)
     }
   };
 

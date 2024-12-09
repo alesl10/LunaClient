@@ -1,4 +1,5 @@
 import Bandeja from "../components/BandejaEntrada/index.jsx";
+import Swal from "sweetalert2";
 import { useEffect, useState } from "react";
 import {
   GetTramitesDestinoRecibidos,
@@ -29,12 +30,25 @@ const BandejaEntrada = () => {
     }
   }, [destino]);
 
-
   const destinosDpto = async (id) => {
-    const response = await getDestinosDepartamento(id);
-    if (response && response.data) {
-      setDestinos(response.data);
-      cargarTramites(response.data[0].acronimo);
+    try {
+      const response = await getDestinosDepartamento(id);
+      if (response && response.data) {
+        setDestinos(response.data);
+        cargarTramites(response.data[0].acronimo);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "No se pudo conectar a la base de datos",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
     }
   };
 
@@ -43,15 +57,21 @@ const BandejaEntrada = () => {
     try {
       const response = await GetTramitesSinRecibir(destino);
       // console.log(response);
-      const rsp = await GetTramitesDestinoRecibidos({codigoDestino:destino})
+      const rsp = await GetTramitesDestinoRecibidos({ codigoDestino: destino });
       setTramites(response.data);
       // console.log(rsp.data)
-      setTramites((prev) => [...prev, ...rsp.data])
-      
-      console.log(tramites)
+      if (rsp.data != null) {
+        setTramites((prev) => [...prev, ...rsp.data]);
+      }
+
+      // console.log(tramites);
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: error.message || "Hubo un problema con la conexión",
+      });
       setIsLoading(false);
     }
   };
@@ -64,7 +84,10 @@ const BandejaEntrada = () => {
   return (
     <div className="bg-gray-200 h-full w-full flex flex-col gap-4 items-center">
       <div className="w-full bg-white flex justify-center gap-3 items-end  py-1 mt-4 text-center">
-        <h2 className="text-primary text-3xl font-bold drop-shadow-xl " style={{ textShadow: "1px 1px 2px primary" }}>
+        <h2
+          className="text-primary text-3xl font-bold drop-shadow-xl "
+          style={{ textShadow: "1px 1px 2px primary" }}
+        >
           Despacho
         </h2>
         <select
@@ -75,7 +98,7 @@ const BandejaEntrada = () => {
           className="p-2 border rounded-lg bg-gray-100 font-medium text-primary w-[100px] border-primary"
         >
           {destinos.map((d, i) => (
-            <option  key={i} value={d.acronimo}>
+            <option key={i} value={d.acronimo}>
               {d.acronimo}
             </option>
           ))}
