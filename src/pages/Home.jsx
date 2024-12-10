@@ -1,5 +1,5 @@
 import { UseAuth } from "../context/authContext.jsx";
-import CardUser from "../components/Card";
+import CardUser from "../components/Card/index.jsx";
 import MenuFunciones from "../components/MenuFunciones/index.jsx";
 import { Carousel } from "flowbite-react";
 
