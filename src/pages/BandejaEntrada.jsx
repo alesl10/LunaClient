@@ -8,12 +8,14 @@ import {
 import { getDestinosDepartamento } from "../api/Destinos.js";
 import Loading from "../components/Loading/Loading.jsx";
 import { UseAuth } from "../context/authContext.jsx";
+import { getSubDestinos } from "../api/SubDestino.js";
 
 const BandejaEntrada = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [destinos, setDestinos] = useState([]);
   const [tramites, setTramites] = useState([]);
   const [destino, setDestino] = useState();
+  const [subDestinos, setSubDestinos] = useState([]);
   const [selectedDestino, setSelectedDestino] = useState({ codigoDestino: "" });
 
   const { user } = UseAuth();
@@ -55,6 +57,8 @@ const BandejaEntrada = () => {
   const cargarTramites = async (destino) => {
     setIsLoading(true);
     try {
+      const subDestinos = await getSubDestinos(destino);
+      setSubDestinos(subDestinos.data);
       const response = await GetTramitesSinRecibir(destino);
       // console.log(response);
       const rsp = await GetTramitesDestinoRecibidos({ codigoDestino: destino });
@@ -104,7 +108,7 @@ const BandejaEntrada = () => {
           ))}
         </select>
       </div>
-      {isLoading ? <Loading /> : <Bandeja tramites={tramites} />}
+      {isLoading ? <Loading /> : <Bandeja tramites={tramites} subDestinos={subDestinos} />}
     </div>
   );
 };

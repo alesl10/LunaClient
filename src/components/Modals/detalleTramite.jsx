@@ -2,13 +2,13 @@ import { Modal } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { format } from "date-fns";
 
-const ModalView = ({ openModal, setOpenModal, tramite }) => {
+const ModalView = ({ openDetalleModal, setOpenDetalleModal, tramite }) => {
   // Configuración del formulario
   const { register, handleSubmit, reset } = useForm();
 
   // Función para cerrar el modal
   const onCloseModal = () => {
-    setOpenModal(false);
+    setOpenDetalleModal(false);
   };
 
   const onSubmit = handleSubmit(async (values) => {
@@ -19,7 +19,7 @@ const ModalView = ({ openModal, setOpenModal, tramite }) => {
 
   if (tramite != null)
     return (
-      <Modal show={openModal} size="2xl" onClose={onCloseModal} popup>
+      <Modal show={openDetalleModal} size="2xl" onClose={onCloseModal} popup>
         <Modal.Header className="bg-primary ">
           <h3 className="text-white font-bold ">Detalles de Tramite</h3>
         </Modal.Header>

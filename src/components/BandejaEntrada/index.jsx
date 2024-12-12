@@ -1,14 +1,17 @@
 import { Table, Pagination } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { format } from "date-fns";
-import ModalView from "../Modals/detalleTramite.jsx";
+import DetalleModalView from "../Modals/detalleTramite.jsx";
+import AsignarModalView from "../Modals/Asignacion.jsx";
 import { TbUrgent } from "react-icons/tb";
 
-const Bandeja = ({ tramites = [] }) => {
+const Bandeja = ({ tramites = [], subDestinos = [] }) => {
   // Configuración de paginación
-  const [openModal, setOpenModal] = useState(false);
+  const [openDetalleModal, setOpenDetalleModal] = useState(false);
+  const [openAsignacionModal, setOpenAsignacionModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [tramite, setTramite] = useState();
+  const [agente, setAgente] = useState();
   // const [viewBotonModal, setViewBotonModal] = useState(false);
   const [tramitesFiltrados, setTramitesFiltrados] = useState([]);
   const [tramitesOrdenados, setTramitesOrdenados] = useState([]);
@@ -41,10 +44,8 @@ const Bandeja = ({ tramites = [] }) => {
 
   useEffect(() => {
     const filtered = tramitesOrdenados.filter((tramite) => {
-      const estadoTramite = tramite.nombreUsuarioAsigando
-        ? "Asignado"
-        : tramite.nombreUsuarioRecepciona
-        ? "Recibido"
+      const estadoTramite = tramite.nombreUsuarioAsigando || tramite.nombreUsuarioRecepciona
+        ? "Asignado/Recibido"
         : "Sin recibir";
 
       return (
@@ -71,24 +72,40 @@ const Bandeja = ({ tramites = [] }) => {
     );
   }, [tramites]);
 
-  // Para abrir modal
+  // Para abrir modal detalle
   const verDetalles = (tramite) => {
     setTramite(tramite);
-    setOpenModal(true);
+    setOpenDetalleModal(true);
+  };
+
+  // Para abrir modal asignacion
+  const verAsignacion = (tramite) => {
+    setTramite(tramite);
+    setOpenAsignacionModal(true);
+  };
+
+  const handleDestinoChange = (e) => {
+    setDestino(e.target.value);
+    // setSelectedDestino({ codigoDestino: e.target.value });
   };
 
   return (
     <div className="w-full  px-10">
-    
       {/* <div className={`fixed bottom-10 right-20 flex  gap-2 z-20 ${viewBotonModal ? "" : "hidden"}`}>
         <button className=" px-3 py-1 mt-1 m-auto  bg-[#6A9AB0] text-white rounded-full border-2 border-primary  hover:saturate-150">Asignar todos</button>
         <button className=" px-3 py-1 mt-1 m-auto  bg-secondary text-primary rounded-full border-2 border-primary  hover:saturate-150">Recibir todos</button>
       </div> */}
 
-      <ModalView
-        openModal={openModal}
-        setOpenModal={setOpenModal}
+      <DetalleModalView
+        openDetalleModal={openDetalleModal}
+        setOpenDetalleModal={setOpenDetalleModal}
         tramite={tramite}
+      />
+      <AsignarModalView
+        openAsignacionModal={openAsignacionModal}
+        setOpenAsignacionModal={setOpenAsignacionModal}
+        tramite={tramite}
+        subDestinos={subDestinos}
       />
       {/* Filtros */}
       <div className="mb-2 flex justify-center">
@@ -137,8 +154,7 @@ const Bandeja = ({ tramites = [] }) => {
             className="border border-gray-300 rounded px-3 py-1"
           >
             <option value="">Todos los estados</option>
-            <option value="Asignado">Asignado</option>
-            <option value="Recibido">Recibidos</option>
+            <option value="Asignado/Recibido">Asignado/Recibido</option>
             <option value="Sin recibir">Sin recibir</option>
           </select>
         </div>
@@ -276,58 +292,33 @@ const Bandeja = ({ tramites = [] }) => {
               </Table.Cell>
 
               {/* columna 7 */}
-              <Table.Cell className=" flex-col items-center justify-center ">
+              <Table.Cell>
                 {/* cambiar por funcion para enviar y recibir  */}
                 {tramite.nombreUsuarioAsigando ? (
                   <button
-                    onClick={() =>
-                      console.log(
-                        `enviar correlativo ${tramite.correlativo}, tramite ${tramite.numerotramite}`
-                      )
-                    }
-                    className=" px-3 py-1 mt-1 m-auto  bg-[#6A9AB0] rounded-full text-gray-200 hover:saturate-150"
+                    onClick={() => verAsignacion(tramite)}
+                    className=" px-3 py-1   bg-[#6A9AB0] rounded-full text-gray-200 hover:saturate-150"
                   >
                     ReAsignar
                   </button>
                 ) : (
-                  <span className="font-bold text-black">
-                    {tramite.nombreUsuarioRecepciona ? (
-                      <button
-                        onClick={() =>
-                          console.log(
-                            `enviar correlativo ${tramite.correlativo}, tramite ${tramite.numerotramite}`
-                          )
-                        }
-                        className=" px-3 py-1 bg-green-600 rounded-full text-gray-200 hover:saturate-150"
-                      >
-                        Asignar
-                      </button>
-                    ) : (
-                      <button
-                        onClick={() =>
-                          console.log(
-                            `recibir correlativo ${tramite.correlativo}, tramite ${tramite.numerotramite}`
-                          )
-                        }
-                        className=" px-3 py-1 bg-[#EAD8B1] rounded-full text-black hover:saturate-200 hover:text-gray-700"
-                      >
-                        Recibir
-                      </button>
-                    )}
-                  </span>
+                  <button
+                    onClick={() => verAsignacion(tramite)}
+                    className=" px-2 py-1  bg-[#EAD8B1] rounded-full text-black hover:saturate-200 hover:text-gray-700"
+                  >
+                    Recibir/Asignar
+                  </button>
                 )}
               </Table.Cell>
               <Table.Cell>
                 {tramite.urgenteNormal == "U" ? (
-                  <span className="text-red-700 text-base font-semibold">
-                    <TbUrgent className="size-10"/>
-                  </span>
+                  <img src="/icons/urgente.png" className="size-10" />
                 ) : (
                   ""
                 )}
               </Table.Cell>
               <Table.Cell className=" bg-transparent">
-                <input type="checkbox"  />
+                <input type="checkbox" />
               </Table.Cell>
             </Table.Row>
           ))}
