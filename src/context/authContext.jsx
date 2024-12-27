@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
-import { login } from "../api/auth.js";
+import { login, loginUserOracle } from "../api/auth.js";
 import { getUserDbByName } from "../api/Usuario.js";
 import { useNavigate } from "react-router-dom";
 
@@ -15,6 +15,7 @@ export const UseAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [userOracle, setUserOracle] = useState();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [error, setError] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -22,11 +23,15 @@ export const AuthProvider = ({ children }) => {
 
   // check token
   useEffect(() => {
-    function checkLogin() {
+    async function checkLogin() {
       let usuarioGuardado = JSON.parse(sessionStorage.getItem("usuario"));
       if (usuarioGuardado) {
         try {
           setUser(usuarioGuardado);
+          const rspUserOracle = await loginUserOracle(
+            usuarioGuardado.usuario.userName
+          );
+          setUserOracle(rspUserOracle.data);
           setIsAuthenticated(true);
           if (location.pathname === "/" || location.pathname === "/login") {
             navigate("/home");
@@ -49,7 +54,13 @@ export const AuthProvider = ({ children }) => {
       if (response.data.isSuccess == true) {
         setIsAuthenticated(true);
         const rspUser = await getUserDbByName(userData.nombre);
+        // console.log(rspUser)
         setUser(rspUser.data);
+        const rspUserOracle = await loginUserOracle(
+          rspUser.data.usuario.userName
+        );
+        console.log(rspUserOracle.data)
+        setUserOracle(rspUserOracle);
         setIsLoading(false);
         sessionStorage.setItem("usuario", JSON.stringify(rspUser.data));
       } else {
@@ -61,11 +72,13 @@ export const AuthProvider = ({ children }) => {
         }, 3000);
       }
     } catch (error) {
-      setIsLoading(false); 
-      
-      const errorMessage = error.response ? error.response.data.message : "Hubo un problema con la conexión al servidor";
-      setError(errorMessage); 
-      console.error(error); 
+      setIsLoading(false);
+
+      const errorMessage = error.response
+        ? error.response.data.message
+        : "Hubo un problema con la conexión al servidor";
+      setError(errorMessage);
+      console.error(error);
       setTimeout(() => {
         setError();
       }, 3000);
@@ -81,7 +94,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ isAuthenticated, user, signin, logout, error, isLoading }}
+      value={{ isAuthenticated, user, signin, logout, error, isLoading, userOracle }}
     >
       {children}
     </AuthContext.Provider>

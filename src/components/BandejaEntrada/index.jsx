@@ -1,20 +1,27 @@
 import { Table, Pagination } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { format } from "date-fns";
 import DetalleModalView from "../Modals/detalleTramite.jsx";
 import AsignarModalView from "../Modals/Asignacion.jsx";
-import { TbUrgent } from "react-icons/tb";
+import ListModalView from "../Modals/listModal.jsx";
 
-const Bandeja = ({ tramites = [], subDestinos = [] }) => {
+const Bandeja = ({
+  tramites = [],
+  subDestinos = [],
+  user,
+  userOracle,
+  cargarDatos,
+}) => {
   // Configuración de paginación
   const [openDetalleModal, setOpenDetalleModal] = useState(false);
   const [openAsignacionModal, setOpenAsignacionModal] = useState(false);
+  const [openListModal, setOpenListModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [tramite, setTramite] = useState();
-  const [agente, setAgente] = useState();
-  // const [viewBotonModal, setViewBotonModal] = useState(false);
   const [tramitesFiltrados, setTramitesFiltrados] = useState([]);
   const [tramitesOrdenados, setTramitesOrdenados] = useState([]);
+  const [accion, setAccion] = useState();
+  const [selectedTramites, setSelectedTramites] = useState([]);
+
   const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -22,6 +29,20 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
     indexOfFirstItem,
     indexOfLastItem
   );
+
+  const toggleTramite = (tramite) => {
+    setSelectedTramites((prev) => {
+      if (prev.includes(tramite)) {
+        // Si ya está seleccionado, lo eliminamos
+        return prev.filter(
+          (item) => item.numerotramite !== tramite.numerotramite
+        );
+      } else {
+        // Si no está seleccionado, lo agregamos
+        return [...prev, tramite];
+      }
+    });
+  };
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -44,9 +65,10 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
 
   useEffect(() => {
     const filtered = tramitesOrdenados.filter((tramite) => {
-      const estadoTramite = tramite.nombreUsuarioAsigando || tramite.nombreUsuarioRecepciona
-        ? "Asignado/Recibido"
-        : "Sin recibir";
+      const estadoTramite =
+        tramite.nombreUsuarioAsigando || tramite.nombreUsuarioRecepciona
+          ? "Asignado/Recibido"
+          : "Sin recibir";
 
       return (
         (filters.numeroTramite === "" ||
@@ -65,6 +87,7 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
 
   // Tramites ordenados
   useEffect(() => {
+    
     setTramitesOrdenados(
       tramites.sort((a, b) =>
         b.fechaIngresoDestino.localeCompare(a.fechaIngresoDestino)
@@ -79,23 +102,21 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
   };
 
   // Para abrir modal asignacion
-  const verAsignacion = (tramite) => {
+  const recibirAsignarEnviar = (tramite, accion) => {
+    setAccion(accion);
     setTramite(tramite);
     setOpenAsignacionModal(true);
   };
 
-  const handleDestinoChange = (e) => {
-    setDestino(e.target.value);
-    // setSelectedDestino({ codigoDestino: e.target.value });
+  // ABRIR MODAL LISTA
+  const verListaRecibirEnviar = (accion) => {
+    console.log(accion);
+    setAccion(accion);
+    setOpenListModal(true);
   };
 
   return (
     <div className="w-full  px-10">
-      {/* <div className={`fixed bottom-10 right-20 flex  gap-2 z-20 ${viewBotonModal ? "" : "hidden"}`}>
-        <button className=" px-3 py-1 mt-1 m-auto  bg-[#6A9AB0] text-white rounded-full border-2 border-primary  hover:saturate-150">Asignar todos</button>
-        <button className=" px-3 py-1 mt-1 m-auto  bg-secondary text-primary rounded-full border-2 border-primary  hover:saturate-150">Recibir todos</button>
-      </div> */}
-
       <DetalleModalView
         openDetalleModal={openDetalleModal}
         setOpenDetalleModal={setOpenDetalleModal}
@@ -105,7 +126,21 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
         openAsignacionModal={openAsignacionModal}
         setOpenAsignacionModal={setOpenAsignacionModal}
         tramite={tramite}
+        accion={accion}
         subDestinos={subDestinos}
+        user={user}
+        userOracle={userOracle}
+        cargarDatos={cargarDatos}
+      />
+      <ListModalView
+        openListModal={openListModal}
+        setOpenListModal={setOpenListModal}
+        selectedTramites={selectedTramites}
+        subDestinos={subDestinos}
+        user={user}
+        accion={accion}
+        userOracle={userOracle}
+        cargarDatos={cargarDatos}
       />
       {/* Filtros */}
       <div className="mb-2 flex justify-center">
@@ -160,6 +195,20 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
         </div>
       </div>
 
+      <div className="flex justify-end mb-2 gap-2 px-2">
+        <button
+          className=" px-2 py-1  bg-green-500 rounded-full text-white hover:saturate-200 hover:text-gray-700"
+          onClick={() => verListaRecibirEnviar("recibir")}
+        >
+          Recibir
+        </button>
+        <button
+          className=" px-2 py-1  bg-green-500 rounded-full text-white hover:saturate-200 hover:text-gray-700"
+          onClick={() => verListaRecibirEnviar("enviar")}
+        >
+          Enviar
+        </button>
+      </div>
       {/* Tabla con la lista de trámites */}
       <Table>
         <Table.Head className="text-primary">
@@ -201,16 +250,9 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
                     <p className="text-base font-semibold text-primary">
                       {tramite.numerotramite}
                     </p>
-                    <p>
-                      {tramite.fechaIngresoDestino
-                        ? format(
-                            new Date(tramite.fechaIngresoDestino),
-                            "dd/MM/yyyy"
-                          )
-                        : "Fecha no válida"}
-                    </p>
+                    <p>{tramite.fechaIngresoDestino}</p>
                     <span
-                      className=" cursor-pointer"
+                      className=" cursor-pointer text-red-500"
                       onClick={() => verDetalles(tramite)}
                     >
                       Ver Detalles
@@ -267,12 +309,12 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
               <Table.Cell>
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col ">
-                    {tramite.nombreUsuarioAsigando ? (
+                    {tramite.nroSubdestino != 0 ? (
                       <div>
                         <span>Recibido por:</span>
                         <p className="font-bold text-primary">
-                          {tramite.nombreUsuarioRecepciona
-                            ? tramite.nombreUsuarioRecepciona
+                          {tramite.usuarioDestino != "9999"
+                            ? ` ${tramite.nombreUsuarioRecepciona} [${tramite.usuarioDestino}]`
                             : "Sin Recibir"}
                         </p>
                         <span>Asignado a:</span>
@@ -282,8 +324,8 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
                       </div>
                     ) : (
                       <span className="font-bold text-primary">
-                        {tramite.nombreUsuarioRecepciona
-                          ? `RECIBIDO POR : \n ${tramite.nombreUsuarioRecepciona}`
+                        {tramite.usuarioDestino != "9999"
+                          ? `RECIBIDO POR : \n ${tramite.nombreUsuarioRecepciona} [${tramite.usuarioDestino}] `
                           : "SIN RECIBIR"}
                       </span>
                     )}
@@ -292,22 +334,34 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
               </Table.Cell>
 
               {/* columna 7 */}
-              <Table.Cell>
-                {/* cambiar por funcion para enviar y recibir  */}
-                {tramite.nombreUsuarioAsigando ? (
+              <Table.Cell >
+                {tramite.usuarioDestino != "9999" ? (
                   <button
-                    onClick={() => verAsignacion(tramite)}
+                    onClick={() => recibirAsignarEnviar(tramite, "enviar")}
                     className=" px-3 py-1   bg-[#6A9AB0] rounded-full text-gray-200 hover:saturate-150"
                   >
-                    ReAsignar
+                    Enviar
                   </button>
                 ) : (
-                  <button
-                    onClick={() => verAsignacion(tramite)}
-                    className=" px-2 py-1  bg-[#EAD8B1] rounded-full text-black hover:saturate-200 hover:text-gray-700"
-                  >
-                    Recibir/Asignar
-                  </button>
+                  <>
+                    {tramite.nroSubdestino != 0 ? (
+                      <button
+                        onClick={() =>
+                          recibirAsignarEnviar(tramite, "reAsignar")
+                        }
+                        className=" px-3 py-1   bg-[#6A9AB0] rounded-full text-gray-200 hover:saturate-150"
+                      >
+                        ReAsignar
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => recibirAsignarEnviar(tramite, "recibir")}
+                        className=" px-2 py-1  bg-[#EAD8B1] rounded-full text-black hover:saturate-200 hover:text-gray-700"
+                      >
+                        Recibir/Asignar
+                      </button>
+                    )}
+                  </>
                 )}
               </Table.Cell>
               <Table.Cell>
@@ -318,7 +372,11 @@ const Bandeja = ({ tramites = [], subDestinos = [] }) => {
                 )}
               </Table.Cell>
               <Table.Cell className=" bg-transparent">
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                  checked={selectedTramites.includes(tramite)}
+                  onChange={() => toggleTramite(tramite)}
+                />
               </Table.Cell>
             </Table.Row>
           ))}

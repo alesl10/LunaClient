@@ -1,6 +1,5 @@
 import { Modal } from "flowbite-react";
 import { useForm } from "react-hook-form";
-import { format } from "date-fns";
 
 const ModalView = ({ openDetalleModal, setOpenDetalleModal, tramite }) => {
   // Configuración del formulario
@@ -103,9 +102,7 @@ const ModalView = ({ openDetalleModal, setOpenDetalleModal, tramite }) => {
               </h4>
               <span>
                 {" "}
-                {tramite.fechaIngresoDestino
-                  ? format(new Date(tramite.fechaIngresoDestino), "dd/MM/yyyy")
-                  : "Fecha no válida"}{" "}
+                {tramite.fechaIngresoDestino}
               </span>
             </div>
 
